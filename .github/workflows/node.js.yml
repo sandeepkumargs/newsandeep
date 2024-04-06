@@ -23,7 +23,7 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: build
+          name: dist
           path: dist
           retention-days: 5
 
