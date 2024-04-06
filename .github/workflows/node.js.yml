@@ -24,14 +24,13 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: ./dist
+          path: ./node_modules/preline/dist
           retention-days: 5
 
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
           name: dist
-          path: ./dist
 
       - name: SSH commands delete the older files and upload the files
         shell: bash
