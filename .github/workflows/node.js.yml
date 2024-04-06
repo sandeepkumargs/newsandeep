@@ -17,14 +17,14 @@ jobs:
       - name: Install depandencies and run npm command
         working-directory: igs-skillviz-fe-feature-qualifications
         run: |
-          npm install
+          npm ci
           npm run build
 
       - name: upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: dist
-          path: dist/
+          path: dist
           retention-days: 5
 
       - name: Download a single artifact
