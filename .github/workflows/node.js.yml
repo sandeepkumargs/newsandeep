@@ -10,18 +10,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-           node-version: '20.12.0'  # Specify the version of Node.js to install
-      - name: Install depandencies and run npm command
+          node-version: '20.12.0'  # Specify the version of Node.js to install
+
+      - name: Install dependencies and run npm command
         working-directory: igs-skillviz-fe-feature-qualifications
         run: |
           npm i
           npm run build
 
-      - name: upload artifact
-        uses: actions/upload-artifact@master
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
           name: dist
           path: igs-skillviz-fe-feature-qualifications/dist
@@ -32,14 +34,20 @@ jobs:
         with:
           name: dist
 
-      - name: SSH commands delete the older files and upload the files
-        shell: bash
-        run: |
-          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deleting existing files in remote directory..." && sudo rm -rf ${{ inputs.remote-directory }}/*'
-          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deploying files to server..."'
-          rsync -avz --delete "${{ inputs.local-directory }}"/* -e "ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem" ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com:/var/www/html/
-
-      - name: SSH deploy step 2
-        shell: bash
-        run: |
-          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deployment completed."'
+      - name: SSH SCP SSH Pipelines
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.DC_HOST }}
+          user: ${{ secrets.DC_USER }}
+          key:  ${{ secrets.DC_key }}
+          connect_timeout: 10s
+          first_ssh: |
+            rm -rf /var/www/html
+            ls -la
+            echo $WELCOME 
+          scp: |
+            './/home/sandeep/goac-sandeep/igs-skillviz-fe-feature-qualifications/dist/*' => /var/www/html/
+           
