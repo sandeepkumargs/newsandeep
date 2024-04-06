@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: ./node_modules/preline/dist
+          path: dist
           retention-days: 5
 
       - name: Download a single artifact
