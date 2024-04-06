@@ -5,7 +5,7 @@ on:
     branches: [ "sandeep" ]
     
 jobs:
-  build_and_test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
