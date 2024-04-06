@@ -10,11 +10,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: set up node.js
-        uses: action/setup-node@v2 
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-           node-version: '20.12.0'
-
+           node-version: '20.12.0'  # Specify the version of Node.js to install
       - name: Install depandencies and run npm command
         working-directory: igs-skillviz-fe-feature-qualifications
         run: |
