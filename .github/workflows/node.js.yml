@@ -28,12 +28,7 @@ jobs:
           name: dist
           path: igs-skillviz-fe-feature-qualifications/dist
           retention-days: 5
-
-      - name: Download a single artifact
-        uses: actions/download-artifact@master
-        with:
-          name: dist
-
+          
       - name: SSH SCP SSH Pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
