@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: dist
+          path: igs-skillviz-fe-feature-qualifications/dist
           retention-days: 5
 
       - name: Download a single artifact
