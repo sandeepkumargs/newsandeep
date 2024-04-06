@@ -1,0 +1,46 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "main" ]
+    
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install depandencies and run npm command
+        working-directory: igs-skillviz-fe-feature-qualifications
+
+        run: |
+          nvm install 20.12.0
+          nvm use 
+          npm install 
+          npm run build --if-present
+          npm test
+
+      - name: upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: build
+          path: ./build
+          retention-days: 5
+
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build
+
+      - name: SSH commands delete the older files and upload the files
+        shell: bash
+        run: |
+          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deleting existing files in remote directory..." && sudo rm -rf ${{ inputs.remote-directory }}/*'
+          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deploying files to server..."'
+          rsync -avz --delete "${{ inputs.local-directory }}"/* -e "ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem" ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com:/var/www/html/
+
+      - name: SSH deploy step 2
+        shell: bash
+        run: |
+          ssh -i /home/sandeep/goac-sandeep/goac-sandeep.pem ubuntu@ec2-13-232-52-59.ap-south-1.compute.amazonaws.com 'echo "Deployment completed."'
