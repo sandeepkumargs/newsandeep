@@ -17,11 +17,11 @@ jobs:
       - name: Install depandencies and run npm command
         working-directory: igs-skillviz-fe-feature-qualifications
         run: |
-          npm ci
+          npm i
           npm run build
 
       - name: upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@master
         with:
           name: dist
           path: dist
@@ -30,7 +30,8 @@ jobs:
       - name: Download a single artifact
         uses: actions/download-artifact@v3
         with:
-          name: build
+          name: dist
+          path: dist
 
       - name: SSH commands delete the older files and upload the files
         shell: bash
