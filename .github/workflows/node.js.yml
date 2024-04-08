@@ -28,6 +28,12 @@ jobs:
           name: dist
           path: igs-skillviz-fe-feature-qualifications/dist
           retention-days: 5
+
+       - name: download artifact
+        uses: actions/doenload-artifact@v2
+        with:
+          name: dist
+          path: /home/igs-skillviz-fe-feature-qualifications/dist
           
       - name: SSH SCP SSH Pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
