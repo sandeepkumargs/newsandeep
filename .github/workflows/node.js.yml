@@ -45,4 +45,4 @@ jobs:
             # SSH command to connect to the server and execute commands
             ssh -i "$SSH_PRIVATE_KEY" "$REMOTE_USER@$REMOTE_HOST" "rm -rf $TARGET/* && exit" 
             # SCP command to copy files to the server
-            scp -i "$SSH_PRIVATE_KEY" /local/path/file.txt "$REMOTE_USER@$REMOTE_HOST:$TARGET/"   is this correct for ssh
+            scp -i "$SSH_PRIVATE_KEY" /home/sandeep/goac-sandeep/igs-skillviz-fe-feature-qualifications/dist* "$REMOTE_USER@$REMOTE_HOST:$TARGET/"  
