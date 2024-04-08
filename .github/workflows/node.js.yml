@@ -41,7 +41,7 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
         with:
-          script: |
+          steps: |
             # SSH command to connect to the server and execute commands
             ssh -i "$SSH_PRIVATE_KEY" "$REMOTE_USER@$REMOTE_HOST" "rm -rf $TARGET/* && exit" 
             # SCP command to copy files to the server
