@@ -41,7 +41,7 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-        run: |
+        with:
           # SSH command to connect to the server and execute commands
           ssh -i "$SSH_PRIVATE_KEY" "$REMOTE_USER@$REMOTE_HOST" "rm -rf $TARGET/* && exit" 
           SSH_EXIT_CODE=$?
