@@ -29,17 +29,11 @@ jobs:
           path: igs-skillviz-fe-feature-qualifications/dist
           retention-days: 5
 
-          
-      - name: Modify permissions of directory
-        run: chmod 755 /home/igs-skillviz-fe-feature-qualifications
-
-
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
           name: dist
-          path: /home/igs-skillviz-fe-feature-qualifications/dist
-          
+          path: /home
       - name: SSH SCP SSH Pipelines
         uses: cross-the-world/ssh-scp-ssh-pipelines@latest
         env:
