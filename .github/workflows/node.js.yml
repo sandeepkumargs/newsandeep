@@ -34,19 +34,17 @@ jobs:
         with:
           name: dist
 
-      - name: SSH SCP SSH Pipelines
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
         env:
-          WELCOME: "ssh scp ssh pipelines"
-          LASTSSH: "Doing something after copying"
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.HOST_DNS }}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: ${{ secrets.TARGET_DIR }}
         with:
-          host: ${{ secrets.DC_HOST }}
-          user: ${{ secrets.DC_USER }}
-          key:  ${{ secrets.DC_KEY }}
-          connect_timeout: 10s
-          first_ssh: |
-            rm -rf /var/www/html
-            ls -la
-            echo $WELCOME 
-          scp: |
-            './/home/sandeep/goac-sandeep/igs-skillviz-fe-feature-qualifications/dist/*' => /var/www/html/
+          script: |
+            # SSH command to connect to the server and execute commands
+            ssh -i "$SSH_PRIVATE_KEY" "$REMOTE_USER@$REMOTE_HOST" "rm -rf $TARGET/* && exit" 
+
+            # SCP command to copy files to the server
+            scp -i "$SSH_PRIVATE_KEY" /local/path/file.txt "$REMOTE_USER@$REMOTE_HOST:$TARGET/"
