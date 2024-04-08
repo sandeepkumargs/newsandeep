@@ -21,6 +21,7 @@ jobs:
         run: |
           npm i
           npm run build
+
       - name: Upload artifact
         uses: actions/upload-artifact@master
         with:
@@ -33,6 +34,9 @@ jobs:
         with:
           name: dist
 
+      - name: Set correct permissions on private key file
+        run: chmod 600 /home/runner/.ssh/deploy_key_***_1712568440289
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -40,13 +44,8 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-        with:
-          steps: |
-            # SSH command to connect to the server and execute commands
-            ssh -i "$SSH_PRIVATE_KEY" "$REMOTE_USER@$REMOTE_HOST" "rm -rf $TARGET/* && exit" 
-            
+
       - name: Copy files to Server
         run: |
-            
             # SCP command to copy files to the server
             scp -i "$SSH_PRIVATE_KEY" /home/sandeep/goac-sandeep/igs-skillviz-fe-feature-qualifications/dist* "$REMOTE_USER@$REMOTE_HOST:$TARGET/"  
