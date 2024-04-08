@@ -35,7 +35,7 @@ jobs:
           name: dist
 
       - name: Set correct permissions on private key file
-        run: chmod 600 /home/runner/.ssh/deploy_key_***_1712568440289
+        run: chmod 600 /home/runner/.ssh/goac-sandeep.pem
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
