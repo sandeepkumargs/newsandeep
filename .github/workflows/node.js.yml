@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: 
+    branches:
       - "sandeep"
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,6 +35,9 @@ jobs:
         with:
           name: dist
 
+      - name: Ensure known hosts for SSH
+        run: ssh-keyscan -H ${{ secrets.HOST_DNS }} >> ~/.ssh/known_hosts
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -44,9 +47,8 @@ jobs:
           TARGET: ${{ secrets.TARGET_DIR }}
         with:
           script: |
-            ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
             ssh -i $SSH_PRIVATE_KEY $REMOTE_USER@$REMOTE_HOST "cd $TARGET && sudo rm -rf * && exit"
-            scp -i $SSH_PRIVATE_KEY -r my-app/build/* $REMOTE_USER@$REMOTE_HOST:$TARGET
+            scp -i $SSH_PRIVATE_KEY -r $GITHUB_WORKSPACE/my-app/build/* $REMOTE_USER@$REMOTE_HOST:$TARGET
 
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
@@ -57,4 +59,4 @@ jobs:
           script: |
             cd /var/www/html
             sudo rm -rf *
-            sudo mv /home/ubuntu/my-app/build/* .
+            sudo mv $TARGET/* .
