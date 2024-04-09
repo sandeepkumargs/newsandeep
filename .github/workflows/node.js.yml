@@ -42,10 +42,12 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
+        with:
           script: |
-            cd home 
-            sudo rm -rf *
-            
+            ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
+            ssh -i $SSH_PRIVATE_KEY $REMOTE_USER@$REMOTE_HOST "cd $TARGET && sudo rm -rf * && exit"
+            scp -i $SSH_PRIVATE_KEY -r my-app/build/* $REMOTE_USER@$REMOTE_HOST:$TARGET
+
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -55,4 +57,4 @@ jobs:
           script: |
             cd /var/www/html
             sudo rm -rf *
-            sudo mv /home/ubuntu/home/my-app/build/* .
+            sudo mv /home/ubuntu/my-app/build/* .
