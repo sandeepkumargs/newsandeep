@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@master
         with:
           name: dist
-          path: myapp/build
+          path: my-app/build
           retention-days: 5
 
       - name: Download a single artifact
