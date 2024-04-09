@@ -51,5 +51,5 @@ jobs:
           script: |
             cd /var/www/html
             sudo rm -rf *
-            sudo mv -r /home/ubuntu/home
+            sudo mv -R /home/ubuntu/home
         
