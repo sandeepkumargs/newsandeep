@@ -42,7 +42,4 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
 
-      - name: Copy files to Server
-        run: |
-            # SCP command to copy files to the server
-            scp -i "$SSH_PRIVATE_KEY" /home/sandeep/goac-sandeep/igs-skillviz-fe-feature-qualifications/dist* "$REMOTE_USER@$REMOTE_HOST:$TARGET/"  
+     
