@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches:
+    branches: 
       - "sandeep"
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -34,7 +34,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: dist
-          
+
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
@@ -42,11 +42,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
-        with:
           script: |
-            ssh -i $SSH_PRIVATE_KEY $REMOTE_USER@$REMOTE_HOST "cd $TARGET && sudo rm -rf * && exit"
-            scp -i $SSH_PRIVATE_KEY -r $GITHUB_WORKSPACE/my-app/build/* $REMOTE_USER@$REMOTE_HOST:$TARGET
-
+            cd home 
+            sudo rm -rf *
+            
       - name: Executing remote ssh commands using ssh key
         uses: appleboy/ssh-action@master
         with:
@@ -56,4 +55,4 @@ jobs:
           script: |
             cd /var/www/html
             sudo rm -rf *
-            sudo mv $TARGET/* .
+            sudo mv /home/ubuntu/home/my-app/build/* .
