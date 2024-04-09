@@ -35,11 +35,8 @@ jobs:
           name: dist
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
+        run: |
+          # Use sudo with rsync to deploy files directly from dist directory
+          sudo rsync -avz dist/ "${{ secrets.USERNAME }}"@"${{ secrets.HOST_DNS }}":"${{ secrets.TARGET_DIR }}"
         env:
           SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
-
-     
