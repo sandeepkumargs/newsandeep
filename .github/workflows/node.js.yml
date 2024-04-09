@@ -34,10 +34,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: dist
-
-      - name: Ensure known hosts for SSH
-        run: ssh-keyscan -H ${{ secrets.HOST_DNS }} >> ~/.ssh/known_hosts
-
+          
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         env:
