@@ -35,12 +35,8 @@ jobs:
           name: dist
 
       - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
-          REMOTE_HOST: ${{ secrets.HOST_DNS }}
-          REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: ${{ secrets.TARGET_DIR }}
         run: |
           # Use sudo before rsync if necessary
           sudo rsync -avz $GITHUB_WORKSPACE/igs-skillviz-fe-feature-qualifications/dist/ "${{ secrets.USERNAME }}"@"${{ secrets.HOST_DNS }}":"${{ secrets.TARGET_DIR }}"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
