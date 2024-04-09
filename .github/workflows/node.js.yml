@@ -2,7 +2,8 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "sandeep" ]
+    branches: 
+      - "sandeep"
     
 jobs:
   build:
@@ -42,5 +43,13 @@ jobs:
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: ${{ secrets.TARGET_DIR }}
 
-      
-        
+      - name: Executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_DNS }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /var/www/html
+            sudo rm -rf *
+            sudo mv /home/ubuntu/home/igs-skillviz-fe-feature-qualifications/dist/* .
