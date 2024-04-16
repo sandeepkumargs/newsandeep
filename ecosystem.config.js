@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'IGS SKillViz User Service',
-      cwd: './skillviz/igs-sv-services-develop/sv-usr-services/src',
+      cwd: './sand1/sand/igs-sv-services-develop/sv-usr-    services/src ',
       script: './index.js',
       env: {
 	PORT: '5001',
@@ -16,7 +16,7 @@ module.exports = {
     },
     {
       name: 'IGS SKillViz Admin Service',
-      cwd: './skillviz/igs-sv-services-develop/sv-admin-services/src',
+      cwd: './sand1/sand/igs-sv-services-develop/sv-admin-services/src',
       script: './index.js',
       env: {
 	PORT: '5002',
